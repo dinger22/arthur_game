@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('arthur:server');
 var http = require('http');
+var mainApp = require('../gameApp/main');
 
 /**
  * Get port from environment and store in Express.
@@ -20,12 +21,14 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+mainApp(server);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-server.listen(port);
+server.listen(port, function listening() {
+  console.log('Listening on %d', server.address().port);
+});
 server.on('error', onError);
 server.on('listening', onListening);
 

@@ -7,5 +7,46 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <button onclick="connect()">Create a room</button>
+
+    <script>
+      function connect() {
+        var connection = new WebSocket('ws://localhost:3000');
+        // When the connection is open, send some data to the server
+        connection.onopen = function () {
+          connection.send('create'); // Send the message 'Ping' to the server
+        };
+
+        // Log errors
+        connection.onerror = function (error) {
+          console.log('WebSocket Error ' + error);
+        };
+
+        // Log messages from the server
+        connection.onmessage = function (e) {
+          console.log('Server: ' + e.data);
+        };
+      }
+    </script>
+    <button onclick="join()">join a room</button>
+    <script>
+      function join() {
+        var connection = new WebSocket('ws://localhost:3000');
+        // When the connection is open, send some data to the server
+        connection.onopen = function () {
+          connection.send('join0'); // Send the message 'Ping' to the server
+        };
+
+        // Log errors
+        connection.onerror = function (error) {
+          console.log('WebSocket Error ' + error);
+        };
+
+        // Log messages from the server
+        connection.onmessage = function (e) {
+          console.log('Server: ' + e.data);
+        };
+      }
+    </script>
   </body>
 </html>
