@@ -1,8 +1,9 @@
 const WebSocket = require("ws");
 const url = require('url');
-var gameRoom = require('../gameComponment/GameRoom.js')
+var GameRoom = require('../GameComponment/GameRoom.js')
 var rooms = [];
-function mainApp(server){
+
+function MainApp(server){
     const wss = new WebSocket.Server({server: server});
     wss.on('connection', function connection(ws, req) {
         const location = url.parse(req.url, true);
@@ -10,23 +11,25 @@ function mainApp(server){
         // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
         //console.log(location);
         ws.on('message', function incoming(message) {
+
             if (message === 'create'){
-                rooms[0] = new gameRoom({
+                var room = new GameRoom({
                     totalPlayers: 7,
                     evilPlayers: 3,
                     roles: [1,2,4,5,7,3,3]
                   });
-                console.log('received: %s', JSON.stringify(rooms[0]));
+                
+                rooms[room.roomID] = room;
+
+                ws.send(JSON.stringify(room));
             }
-            else if (message === 'join0'){
-                rooms[0].roles.name = 'dingding'
-                console.log('received: %s', rooms[0].roles.name);
+            else {//if join a specific room
+                var roomNumber = JSON.parse(message);
+                console.log(JSON.stringify(rooms[roomNumber.roomNum]));
             }
             
         });
-
-        ws.send('something');
     });
 }
 
-module.exports = mainApp;
+module.exports = MainApp;

@@ -1,9 +1,9 @@
-var RoleEnum = require('../gameSetupHelper/GameBoardEnum');
+var RoleEnum = require('../GameSetupHelper/RoleEnum.js');
 
 class Role{
     constructor(roleId){
         this.roleId = roleId;
-        //this.roleCode = RoleEnum.code[roleId]
+        this.roleCode = RoleEnum.code[roleId]
     }
 }
 

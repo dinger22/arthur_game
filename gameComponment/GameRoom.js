@@ -1,11 +1,10 @@
-//var RandomHelper = require('RandomHelper');
-
-var GameBoard = require('../gameComponment/GameBoard'); 
-var Role = require('../gameComponment/Role');
+var RandomHelper = require('../Utilities/RandomHelper');
+var GameBoard = require('../GameComponment/GameBoard'); 
+var Role = require('../GameComponment/Role');
 
 class GameRoom{
     constructor(configData){
-        //this.roomID = randomHelper(5);
+        this.roomID = RandomHelper.CreateRoomNum();
         this.totalPlayers = configData.totalPlayers;
         this.evilPlayers = configData.evilPlayers;
         this.roles = configData.roles.map((role) => {

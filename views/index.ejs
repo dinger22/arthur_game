@@ -7,10 +7,11 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <button onclick="connect()">Create a room</button>
+    <button onclick="create()">Create a room 1</button>
 
     <script>
-      function connect() {
+      var roomNum = -1;
+      function create() {
         var connection = new WebSocket('ws://localhost:3000');
         // When the connection is open, send some data to the server
         connection.onopen = function () {
@@ -24,17 +25,23 @@
 
         // Log messages from the server
         connection.onmessage = function (e) {
-          console.log('Server: ' + e.data);
+          var room = JSON.parse(e.data);
+          roomNum = room.roomID
+          console.log(JSON.stringify({'roomNum': roomNum}));
         };
       }
     </script>
-    <button onclick="join()">join a room</button>
+    <button onclick="join()">join a room 2</button>
+    <button onclick="join()">join a room 3</button>
+    <button onclick="join()">join a room 4</button>
+    <button onclick="join()">join a room 5</button>
+    <button onclick="join()">join a room 6</button>
+    <button onclick="join()">join a room 7</button>
     <script>
       function join() {
         var connection = new WebSocket('ws://localhost:3000');
-        // When the connection is open, send some data to the server
         connection.onopen = function () {
-          connection.send('join0'); // Send the message 'Ping' to the server
+          connection.send(JSON.stringify({'roomNum': roomNum}));
         };
 
         // Log errors

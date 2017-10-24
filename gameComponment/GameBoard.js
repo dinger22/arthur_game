@@ -1,6 +1,6 @@
-//var RandomHelper = require('RandomHelper');
+var RandomHelper = require('../Utilities/RandomHelper');
 
-var GameBoardEnum = require('../gameSetupHelper/GameBoardEnum'); 
+var GameBoardEnum = require('../GameSetupHelper/GameBoardEnum'); 
 
 class GameBoard{
     constructor(totalPlayers, evilPlayers){
@@ -8,7 +8,7 @@ class GameBoard{
         this.steps = GameBoardEnum[totalPlayers];
         this.successSteps = 0;
         this.currentStep = 1;
-        //this.currentLeader = RandomHelper(1,totalPlayers);
+        this.currentLeader = RandomHelper.GetRandomLeader(totalPlayers);
     }
 }
 
