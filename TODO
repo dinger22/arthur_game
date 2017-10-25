@@ -1,0 +1,5 @@
+assign player numbers according to the sequence of join 
+meanwhile randomly distrubute roles, need to match total number, evil number.
+
+different type of messages from client side: create, join, team vote, quest vote,
+handlers for different types
