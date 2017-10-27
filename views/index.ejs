@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>TEMP CLIENT</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
     <button onclick="create()">Create a room 1</button>
+    <div>    
+      <input type="number" id="totalPlayers"  />
+      <input type="number" id="evilPlayers"  />
+    </div>
 
     <script>
-      var roomNum = -1;
       function create() {
+        var totalPlayers = $('#totalPlayers').val();
+        var evilPlayers = $('#evilPlayers').val();
         var connection = new WebSocket('ws://localhost:3000');
-        // When the connection is open, send some data to the server
+        var bundle = {
+          Action: 'create',
+          TotalPlayers: totalPlayers,
+          EvilPlayers: evilPlayers
+        }
         connection.onopen = function () {
-          connection.send('create'); // Send the message 'Ping' to the server
+          connection.send(JSON.stringify(bundle));
         };
 
         // Log errors
@@ -23,25 +31,50 @@
           console.log('WebSocket Error ' + error);
         };
 
-        // Log messages from the server
         connection.onmessage = function (e) {
           var room = JSON.parse(e.data);
-          roomNum = room.roomID
-          console.log(JSON.stringify({'roomNum': roomNum}));
+          $( "input[name='roomNum']" ).val(room); 
+          console.log(JSON.stringify({'roomNum': room}));
         };
+
+
       }
     </script>
-    <button onclick="join()">join a room 2</button>
-    <button onclick="join()">join a room 3</button>
-    <button onclick="join()">join a room 4</button>
-    <button onclick="join()">join a room 5</button>
-    <button onclick="join()">join a room 6</button>
-    <button onclick="join()">join a room 7</button>
+    <div>
+        <button onclick="join()">join a room 2</button>
+        <input type="number" name="roomNum"  />
+    </div>
+    
+    <div>
+        <button onclick="join()">join a room 3</button>
+        <input type="number" name="roomNum"  />
+    </div>
+    <div>
+        <button onclick="join()">join a room 4</button>
+        <input type="number" name="roomNum"  />
+    </div>
+    <div>
+        <button onclick="join()">join a room 5</button>
+        <input type="number" name="roomNum"  />
+    </div>
+    <div>
+        <button onclick="join()">join a room 6</button>
+        <input type="number" name="roomNum"  />
+    </div>
+    <div>
+        <button onclick="join()">join a room 7</button>
+        <input type="number" name="roomNum"  />
+    </div>
     <script>
       function join() {
         var connection = new WebSocket('ws://localhost:3000');
         connection.onopen = function () {
-          connection.send(JSON.stringify({'roomNum': roomNum}));
+          var roomNum = $( "input[name='roomNum']" ).val();    
+          var bundle = {
+            Action: "join",
+            RoomNum: roomNum
+          }      
+          connection.send(JSON.stringify(bundle));
         };
 
         // Log errors

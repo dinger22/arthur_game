@@ -9,23 +9,21 @@ function MainApp(server){
         const location = url.parse(req.url, true);
         // You might use location.query.access_token to authenticate or share sessions
         // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-        //console.log(location);
         ws.on('message', function incoming(message) {
-
-            if (message === 'create'){
+            var result = JSON.parse(message);
+            if (result.Action === 'create'){
                 var room = new GameRoom({
-                    totalPlayers: 7,
-                    evilPlayers: 3,
-                    roles: [1,2,4,5,7,3,3]
+                    TotalPlayers: result.TotalPlayers,
+                    EvilPlayers: result.EvilPlayers,
+                    roles: [1,2,4,5,7,3,3]//TODO: Shuffle array
                   });
                 
                 rooms[room.roomID] = room;
 
-                ws.send(JSON.stringify(room));
+                ws.send(room.roomID);
             }
-            else {//if join a specific room
-                var roomNumber = JSON.parse(message);
-                console.log(JSON.stringify(rooms[roomNumber.roomNum]));
+            else if(result.Action === 'join'){
+                console.log(JSON.stringify(rooms[result.RoomNum]));
             }
             
         });
